@@ -9,7 +9,7 @@
     <div class="card-body">
         <h3 class="card-title  text-center ">Acceso de usuario</h3>
 
-        <form asp-controller="Cuentas" asp-action="Acceso" method="post">
+        <form asp-controller="Cuentas" asp-action="Acceso" asp-route-returnurlUrl="@ViewData["ReturnurlUrl"]" method="post">
             <div asp-validation-summary="All" class=" text-danger"></div>
 
             <div class=" row mt-4">
@@ -42,8 +42,6 @@
                 </div>
             </div>
          
-         
-
             <div class=" row">
                 <div class=" col-sm-6">
                     <button type="submit" class=" btn btn-success w-100 btn-lg">Acceder <i class="bi bi-arrw-right-cicle-fill"></i> </button>

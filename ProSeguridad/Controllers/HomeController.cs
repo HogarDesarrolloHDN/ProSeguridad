@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProSeguridad.Models;
 using System.Diagnostics;
 
@@ -13,11 +14,12 @@ namespace ProSeguridad.Controllers
             _logger = logger;
         }
 
+   
         public IActionResult Index()
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

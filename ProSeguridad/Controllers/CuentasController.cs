@@ -31,6 +31,7 @@ namespace ProSeguridad.Controllers
 
             return View(registroViewModel);
         }
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Registro(RegistroViewModel registroViewModel)
         {
@@ -76,22 +77,25 @@ namespace ProSeguridad.Controllers
 
 
         [HttpGet]
-        public IActionResult Acceso()
+        public IActionResult Acceso( string? returnurlUrl=null)
         {
+            ViewData["ReturnurlUrl"] = returnurlUrl;
             return View();
         }
-
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Acceso(AccesoViewModel accesoView)
+        public async Task<IActionResult> Acceso(AccesoViewModel accesoView, string returnurlUrl = null)
         {
+            ViewData["ReturnurlUrl"] = returnurlUrl;
+
             if (ModelState.IsValid)
             {           
                 var resultado = await _signInManager.PasswordSignInAsync(accesoView.Email, accesoView.Password , accesoView.RememberMe, lockoutOnFailure:false);
 
                 if (resultado.Succeeded)
                 {
-                   
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
+                    return LocalRedirect(returnurlUrl);
                 }
                 else
                 {
@@ -101,6 +105,15 @@ namespace ProSeguridad.Controllers
                 
             }
             return View(accesoView);
+        }
+
+        //salirO cerrar sesion
+        [HttpPost]
+        [ValidateAntiForgeryToken]  
+        public async Task<IActionResult> SalirAplicacion() {        
+             await _signInManager.SignOutAsync();
+           return RedirectToAction(nameof(HomeController.Index),"Home");
+        
         }
 
     }

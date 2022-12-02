@@ -14,6 +14,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 
 //Agregar servicio de identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+/// reinscribe mi url paraacceso
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = new PathString("/Cuentas/Acceso");
+    });
 
 var app = builder.Build();
 
