@@ -19,6 +19,7 @@ namespace ProSeguridad.Controllers
         {
             return View();
         }
+
         [Authorize]
         public IActionResult Privacy()
         {

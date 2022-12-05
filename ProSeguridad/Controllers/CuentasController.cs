@@ -8,7 +8,7 @@ namespace ProSeguridad.Controllers
     public class CuentasController : Controller
     {
 
-       private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
@@ -25,7 +25,7 @@ namespace ProSeguridad.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Registro()
+        public async Task<IActionResult> Registro(string? returnurl = null)
         {
             RegistroViewModel registroViewModel = new RegistroViewModel();
 
@@ -33,8 +33,11 @@ namespace ProSeguridad.Controllers
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Registro(RegistroViewModel registroViewModel)
+        public async Task<IActionResult> Registro(RegistroViewModel registroViewModel, string? returnurl = null)
         {
+            ViewData["ReturnurlUrl"] = returnurl;
+            returnurl = returnurl??Url.Content("~/");
+
             if (ModelState.IsValid)
             {
                 var usuario = new AppUsuario()
@@ -57,8 +60,7 @@ namespace ProSeguridad.Controllers
                 if (resultado.Succeeded)
                 {
                     await _signInManager.SignInAsync(usuario, isPersistent: false);
-
-                    return RedirectToAction("Index", "Home");
+                    return LocalRedirect(returnurl);
                 }
                 ValidarErrores(resultado);
             }
@@ -77,25 +79,29 @@ namespace ProSeguridad.Controllers
 
 
         [HttpGet]
-        public IActionResult Acceso( string? returnurlUrl=null)
+        public IActionResult Acceso( string? returnurl=null)
         {
-            ViewData["ReturnurlUrl"] = returnurlUrl;
+            ViewData["ReturnurlUrl"] = returnurl;
             return View();
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Acceso(AccesoViewModel accesoView, string returnurlUrl = null)
+        public async Task<IActionResult> Acceso(AccesoViewModel accesoView, string? returnurl=null)
         {
-            ViewData["ReturnurlUrl"] = returnurlUrl;
+            ViewData["ReturnurlUrl"] = returnurl;
+            returnurl = returnurl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
             {           
-                var resultado = await _signInManager.PasswordSignInAsync(accesoView.Email, accesoView.Password , accesoView.RememberMe, lockoutOnFailure:false);
+                var resultado = await _signInManager.PasswordSignInAsync(accesoView.Email, accesoView.Password , accesoView.RememberMe, lockoutOnFailure:true);
 
                 if (resultado.Succeeded)
+                {                    
+                    return LocalRedirect(returnurl);
+                }
+                if (resultado.IsLockedOut)
                 {
-                    //return RedirectToAction("Index", "Home");
-                    return LocalRedirect(returnurlUrl);
+                    return View("Bloqueado");
                 }
                 else
                 {
@@ -116,9 +122,18 @@ namespace ProSeguridad.Controllers
         
         }
 
+        //Metodo para olvido password
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OlvidoPassword()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+
+        }
     }
 
 
-
+    
 
 }

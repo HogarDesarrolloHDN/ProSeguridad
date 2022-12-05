@@ -15,10 +15,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 //Agregar servicio de identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 /// reinscribe mi url paraacceso
+
 builder.Services.ConfigureApplicationCookie(options => {
     options.LoginPath = new PathString("/Cuentas/Acceso");
-    });
+    options.AccessDeniedPath = new PathString("/Cuentas/Bloqueado");
+});
 
+//esta linea para la url de retorno
+builder.Services.Configure<IdentityOptions>(option =>
+{
+    option.Password.RequiredLength = 5;
+    option.Password.RequireLowercase = true;
+    option.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+    option.Lockout.MaxFailedAccessAttempts = 3;
+
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
