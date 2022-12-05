@@ -124,12 +124,9 @@ namespace ProSeguridad.Controllers
 
         //Metodo para olvido password
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> OlvidoPassword()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index), "Home");
-
+        {            
+            return View();
         }
     }
 
