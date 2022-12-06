@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using ProSeguridad.Data;
+using ProSeguridad.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +15,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
  option.UseSqlServer(builder.Configuration.GetConnectionString("conections")));
 
 //Agregar servicio de identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-/// reinscribe mi url paraacceso
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
+/// reinscribe mi url paraacceso
 builder.Services.ConfigureApplicationCookie(options => {
     options.LoginPath = new PathString("/Cuentas/Acceso");
     options.AccessDeniedPath = new PathString("/Cuentas/Bloqueado");
@@ -30,6 +33,9 @@ builder.Services.Configure<IdentityOptions>(option =>
     option.Lockout.MaxFailedAccessAttempts = 3;
 
 });
+
+///Se Agrega EmailSender
+builder.Services.AddTransient<IEmailSender, MaiJetEmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
