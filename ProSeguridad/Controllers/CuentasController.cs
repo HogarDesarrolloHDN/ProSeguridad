@@ -63,8 +63,15 @@ namespace ProSeguridad.Controllers
                
                 if (resultado.Succeeded)
                 {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+                    var urlReturn = Url.Action("ConfirmarEmail", "Cuentas", new { userId = usuario.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                   
+                    await _emailSender.SendEmailAsync(registroViewModel.Email, "Confirmacion de cuenta - proyecto seguridad",
+                        "Por favor confirme su cuenta dando click aquí: <a href=\"" + urlReturn + "\">enlace</a>");
+
                     await _signInManager.SignInAsync(usuario, isPersistent: false);
-                    return LocalRedirect(returnurl);
+                   return LocalRedirect(returnurl);
+                   
                 }
                 ValidarErrores(resultado);
             }
@@ -186,16 +193,42 @@ namespace ProSeguridad.Controllers
                 {
                     return RedirectToAction("ConfirmacionRecuperaPassword");
                 }
-                ValidarErrores(resultado);
+               ValidarErrores(resultado);
             }
             return View(recuperar);
         }
-
+        
 
         [HttpGet]
         public IActionResult ConfirmacionRecuperaPassword()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmarEmail(string userId, string code)
+         {
+            if (userId==null || code==null)
+            {
+                return View("Error");
+            }
+
+          var usuario =  await _userManager.FindByIdAsync(userId);
+            if (usuario==null)
+            {
+                return View("Error");
+            }
+            var resultado=await _userManager.ConfirmEmailAsync(usuario, code);
+            if (resultado.Succeeded)
+            {
+                return View("ConfirmarEmail");
+            }
+            else
+            {
+                return View("Error");
+            }
+
+            
         }
     }
 }
