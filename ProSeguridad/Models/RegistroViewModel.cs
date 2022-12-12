@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProSeguridad.Models
 {
@@ -30,6 +31,11 @@ namespace ProSeguridad.Models
         public string? Direccion { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public bool? Estado { get; set; }
+
+        [Display(Name ="Seleccionar rol")]
+        public IEnumerable<SelectListItem>? ListaRoles { get; set; }
+        public string? RolSeleccionado { get; set; }
+
 
     }
 }
