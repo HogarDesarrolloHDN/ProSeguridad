@@ -175,8 +175,7 @@ namespace ProSeguridad.Controllers
                     {
                         await _userManager.AddToRoleAsync(usuario, "usuario");
 
-                    }
-                            
+                    }                         
 
                    
 
@@ -321,7 +320,7 @@ namespace ProSeguridad.Controllers
             }
             return View(recuperar);
         }
-        
+      
 
         [HttpGet]
         public IActionResult ConfirmacionRecuperaPassword()

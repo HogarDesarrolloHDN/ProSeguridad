@@ -14,15 +14,29 @@
           </li> 
         }
         
-        
-      <li class="nav-item">
-        <a class="nav-link text-white" >Hola, @UserManager.GetUserName(User)</a>
-    </li>
+        <li class="nav-item dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Perfil
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                 <li class="nav-item">
+                     <a class="nav-link text-dark" >Hola, @UserManager.GetUserName(User)</a>
+                </li>
+                <li> <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="EditarPerfil" asp-route-id="@UserManager.GetUserId(User)">EditarPerfil</a></li>
+                <li> <hr class="dropdown-divider"  ></li>
+                <li> <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="CambiarPassword">Cambiar contraseña</a></li>
+
+
+            </ul>
+        </li>
+
     <li class="nav-item">
         <form id="logoutForm" method="post" class="form-inline" asp-controller="Cuentas" asp-action="SalirAplicacion">
             <button type="submit" class=" btn nav-link">Salir</button>
        </form>
     </li>
+
+
     }else
     {
       
