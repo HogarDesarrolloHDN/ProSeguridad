@@ -34,6 +34,24 @@ builder.Services.Configure<IdentityOptions>(option =>
 
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin",policy=>policy.RequireRole("Admin"));
+    options.AddPolicy("Usuario", policy => policy.RequireRole("Usuario"));
+    options.AddPolicy("Registrado", policy => policy.RequireRole("Registrado"));
+    options.AddPolicy("AccesoUsuarioYAdministrador", policy => policy.RequireRole("Usuario").RequireRole("Admin"));
+   
+    options.AddPolicy("AdministradorPermisoCrear", policy => policy.RequireRole("Admin").RequireClaim("Crear", "True"));
+    options.AddPolicy("AdministradorPermisoEditar", policy => policy.RequireRole("Admin").RequireClaim("Editar", "True"));
+    options.AddPolicy("AdministradorPermisoBorrar", policy => policy.RequireRole("Admin").RequireClaim("Borrar", "True"));
+
+    options.AddPolicy("AdministradorPermisoCrearEditarBorrar", policy => policy.RequireRole("Admin").RequireClaim("Crear", "True")
+    .RequireClaim("Editar", "True").RequireClaim("Borrar", "True"));
+
+
+
+});
+
 ///Se Agrega EmailSender
 builder.Services.AddTransient<IEmailSender, MaiJetEmailSender>();
 var app = builder.Build();

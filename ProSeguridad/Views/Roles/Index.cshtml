@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class=" text-center">Administracion De roles</h1>
+
+@if (TempData["correcto"]  !=null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["correcto"] 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+@if (TempData["Error"]  !=null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+@TempData["Error"]
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+<div class="row">
+<div class="col-sm-3 offset-9">
+    <a class=" btn btn-primary" asp-controller="Roles" asp-action="Crear">Nuevo Rol</a>
+
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+      
+
+        <div class="card border">
+            <div class="card-header">
+                <h3> <strong>Lista de roles</strong> </h3>               
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                   @if (Model.Count()>0)
+                    {
+                        <table class="d-lg-table table-bordered " id="tblRoles" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(x=>item.Id)</td>
+                                        <td>@Html.DisplayFor(x=>item.Name)</td>
+                                        <td>
+                                            <a class=" btn btn-primary" asp-controller="Roles" asp-action="Editar" asp-route-id="@item.Id">Editar</a>
+                                            <form asp-controller="Roles" asp-action="Borrar" asp-route-id="@item.Id">
+                                                <button type="submit" class=" btn btn-danger" onclick="return confirm('Esta seguro de borrar este registro')">Borrar</button>
+
+
+                                                </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }else
+                    {
+                            <p>No hay registro</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('#tblRoles').DataTable();
+        });
+    </script>
+        }

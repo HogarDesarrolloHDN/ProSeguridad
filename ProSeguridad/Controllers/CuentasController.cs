@@ -38,9 +38,9 @@ namespace ProSeguridad.Controllers
             {
                 await _roleManager.CreateAsync(new IdentityRole("Admin"));
             }
-            if (!await _roleManager.RoleExistsAsync("usuario"))
+            if (!await _roleManager.RoleExistsAsync("Usuario"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("usuario"));
+                await _roleManager.CreateAsync(new IdentityRole("Usuario"));
             }
 
 
@@ -113,17 +113,17 @@ namespace ProSeguridad.Controllers
             {
                 await _roleManager.CreateAsync(new IdentityRole("Admin"));
             }
-            if (!await _roleManager.RoleExistsAsync("usuario"))
+            if (!await _roleManager.RoleExistsAsync("Usuario"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("usuario"));
+                await _roleManager.CreateAsync(new IdentityRole("Usuario"));
             }
 
             List<SelectListItem> listaRoles = new List<SelectListItem>();
 
             listaRoles.Add(new SelectListItem()
             {
-                Value= "usuario",
-                Text= "usuario"
+                Value= "Usuario",
+                Text= "Usuario"
             });
 
             listaRoles.Add(new SelectListItem()

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     @*iconi*@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css
+">
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProSeguridad.styles.css" asp-append-version="true" />
@@ -30,7 +32,33 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                       
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Roles" asp-action="Index">Admin Roles</a>
+                        </li> <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Usuarios" asp-action="Index">Admin Usuarios</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                Acceso/autorizacion
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoPublico">Acceso Publico</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoAutenticado">Acceso Autenticado</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoUsuario">Acceso Usuario</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoRegistrado">Acceso Registrado</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoAdministrador"> Acceso Administrador</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoUsuarioAdministrador">Acceso Usuario Administrador</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoUsuarioYAdministrador">AccesoUsuario Y Administrador</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoAdministradorPermisoCrear">Acceso AdministradorPermisoCrear</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoAdministradorPermisoEditar">Acceso AdministradorPermisoEditar</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoAdministradorPermisoBorrar">Acceso AdministradorPermisoBorrar</a>
+                                <a class="nav-link text-dark" asp-controller="Autorizacion" asp-action="AccesoAdministradorPermisoCrearEditarBorrar">Acceso AdministradorPermisoBorrar</a>
+
+
+                            </ul>
+                        </li>
+
                     </ul>
                     <!--vista parctial Login-->
                     <partial name="_LoginRegistroVistaPartial"/>
@@ -54,7 +82,8 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <!--Js Yquery-->
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

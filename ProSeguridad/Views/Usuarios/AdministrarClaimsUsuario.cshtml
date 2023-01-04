@@ -1,0 +1,33 @@
+﻿@model ClaimsUsuarioWiewModel
+@{
+    ViewData["Title"] = "AdministrarClaimsUsuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form method="post">
+    <input type="hidden" asp-for="IdUsuario" />
+
+    <div class="card">
+        <div class="card-header">
+            <h1>Asignar permiso claims</h1>
+        </div>
+        <div class="card-body">
+            @for(int i=0; i< Model.Claimss.Count; i++)
+            {
+                <div class="m-3 form-check">
+                    <input type="hidden" asp-for="@Model.Claimss[i].TipoClaim" />
+                    <input asp-for="@Model.Claimss[i].Seleccionando" class="form-check-input" />
+
+                    <label class="form-check-label" asp-for="@Model.Claimss[i].Seleccionando">
+                        @Model.Claimss[i].TipoClaim
+                    </label>
+
+                </div>
+            }
+            <div class=" text-danger" asp-validation-summary="All"></div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class=" btn btn-success w-50" >Asignar Permiso</button>
+    </div>
+</form>
+

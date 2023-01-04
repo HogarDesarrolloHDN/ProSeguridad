@@ -1,0 +1,102 @@
+﻿@model IEnumerable<ProSeguridad.Models.AppUsuario>
+@{
+    ViewData["Title"] = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h1 class="text-center"> Administracion de usuario</h1>
+
+<div class="row">
+    <div class="col-md-12">
+
+
+        <div class="card border">
+            <div class="card-header">
+                <h3> <strong>Lista de Usuario</strong> </h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    @if (Model.Count() > 0)
+                    {
+                        <table class="d-lg-table table-bordered " id="tblRoles" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(x=>x.Nombre)</th>
+                                    <th>@Html.DisplayNameFor(x=>x.Email)</th>
+                                    <th>@Html.DisplayNameFor(x=>x.Telefono)</th>
+                                    <th>@Html.DisplayNameFor(x=>x.Rol)</th>
+                                   
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(x=>item.Nombre)</td>
+                                        <td>@Html.DisplayFor(x=>item.Email)</td>
+                                        <td>@Html.DisplayFor(x=>item.Telefono)</td>
+                                        <td>@Html.DisplayFor(x=>item.Rol)</td>
+                                        <td>
+                                            <div class="text-center">
+                                                <form asp-action="Borrar" asp-route-IdUser="@item.Id">
+                                                    <a class=" btn btn-primary" asp-controller="Usuarios" asp-action="Editar" asp-route-id="@item.Id">Editar</a>
+
+                                                    <a class=" btn btn-success text-white" asp-controller="Usuarios" asp-action="AdministrarClaimsUsuario" asp-route-IdUsuario="@item.Id">Permiso claims</a>
+
+                                                    @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
+                                                    {
+                                                        <button class=" btn btn-secondary text-white" asp-action="BloqueoDesbloqueo" asp-route-IdUser="@item.Id" style="cursor:pointer"><strong>Bloquear</strong> </button>
+
+                                                         
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class=" btn btn-warning text-white" asp-action="BloqueoDesbloqueo" asp-route-IdUser="@item.Id" style="cursor:pointer">
+                                                            <strong>DesBloquear</strong></button>
+
+                                                    }
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    <button class=" btn btn-danger"type="submit" onclick="return confirm('Esta seguro de eliminar este registro?')">Borrar</button>
+
+                                                </form>
+                                            
+                                                </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No hay registro</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('#tblRoles').DataTable();
+        });
+    </script>
+        }
+
+
+
+
+

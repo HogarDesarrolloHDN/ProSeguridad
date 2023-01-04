@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualBasic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProSeguridad.Models
 {
@@ -14,5 +17,13 @@ namespace ProSeguridad.Models
         public string? Direccion { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public bool?  Estado { get; set; }
+
+        [NotMapped]
+        public string? Rol { get ; set; }
+        [NotMapped]
+        [Display(Name ="Lista de rol")]
+        public string? IdRol { get; set; }
+        [NotMapped] 
+        public IEnumerable<SelectListItem>? ListRol { get; set; }    
     }
 }
